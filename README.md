@@ -21,7 +21,7 @@ var REST = new DotcmsRest({debug: true});
 Publishing a new contentlet:
 
 ```js
-REST.saveContentlet('Blog', {
+REST.publishContentlet('Blog', {
     'title': 'How to Build a Boat',
     'body': '...'
 });
@@ -35,6 +35,8 @@ REST.saveContentlet('Blog', {
     'body': '...'
 });
 ```
+
+Both methods take an optional callback as the third paramater.
 
 ### Get a contentlet
 
