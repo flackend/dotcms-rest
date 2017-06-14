@@ -24,7 +24,7 @@ Publishing a new contentlet:
 REST.publishContentlet('Blog', {
     'title': 'How to Build a Boat',
     'body': '...'
-});
+}, <callback>);
 ```
 
 Or simply save (without publishing):
@@ -33,7 +33,7 @@ Or simply save (without publishing):
 REST.saveContentlet('Blog', {
     'title': 'How to Build a Boat',
     'body': '...'
-});
+}, <callback>);
 ```
 
 Both methods take an optional callback as the third paramater.
