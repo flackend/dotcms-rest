@@ -151,6 +151,58 @@ var DotcmsRest = (function () {
                 return this.createContentlet("publish", structure, data, callback);
             }
         },
+        query: {
+
+            /**
+             * Queries for contentlets.
+             *
+             * This function could likely be made a lot easier to work with by replacing
+             * the query param with structure and data params. Though you'd need a list
+             * of the global params that wouldn't need to be prefixed with the structure
+             * name (e.g. deleted, working, languageId). You would be required to pass
+             * in a structure name that would be used to prefix (e.g. "+Blog.title:How
+             * to *"). Consideration should be made in regards to the "/stInode/xxxx"
+             * which assumably lets you query reults that were published to a specific
+             * structure version (would be valuable if you want to only fetch updated
+             * contentlets). I'm not sure how you would make handle dates. Maybe have
+             * another function, `queryWithDate` or something, that take two additional
+             * params.
+             * @param  string   query    A lucene query string
+             * @param  object   options  A map of options. Available keys are orderBy,
+             * limit, offset, and render.
+             * @param  function callback The function that will be called when the
+             * transaction has completed and will receive the query results.
+             */
+
+            value: (function (_query) {
+                var _queryWrapper = function query(_x, _x2, _x3) {
+                    return _query.apply(this, arguments);
+                };
+
+                _queryWrapper.toString = function () {
+                    return _query.toString();
+                };
+
+                return _queryWrapper;
+            })(function (query, options, callback) {
+                var availableOptions = ["limit", "offset", "orderBy", "render"];
+                var queryString = "";
+                availableOptions.each(function (option) {
+                    if (options[option]) {
+                        optionsString += "" + option + "/" + options[option];
+                    }
+                });
+                jQuery.ajax({
+                    url: "/api/content/query/" + query + "/" + optionsString,
+                    dataType: "JSON",
+                    success: function (data) {
+                        if (typeof callback === "function") {
+                            callback(data.contentlets || false);
+                        }
+                    }
+                });
+            })
+        },
         removeLock: {
 
             /**
