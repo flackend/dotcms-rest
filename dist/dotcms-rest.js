@@ -187,13 +187,13 @@ var DotcmsRest = (function () {
             })(function (query, options, callback) {
                 var availableOptions = ["limit", "offset", "orderBy", "render"];
                 var queryString = "";
-                availableOptions.each(function (option) {
+                availableOptions.forEach(function (option) {
                     if (options[option]) {
-                        optionsString += "" + option + "/" + options[option];
+                        queryString += "" + option + "/" + options[option];
                     }
                 });
                 jQuery.ajax({
-                    url: "/api/content/query/" + query + "/" + optionsString,
+                    url: "/api/content/query/" + query + "/" + queryString,
                     dataType: "JSON",
                     success: function (data) {
                         if (typeof callback === "function") {

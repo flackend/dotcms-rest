@@ -154,13 +154,13 @@ class DotcmsRest {
             'render'
         ];
         let queryString = '';
-        availableOptions.each((option) => {
+        availableOptions.forEach((option) => {
             if (options[option]) {
-                optionsString += `${option}/${options[option]}`;
+                queryString += `${option}/${options[option]}`;
             }
         });
         jQuery.ajax({
-            url: `/api/content/query/${query}/${optionsString}`,
+            url: `/api/content/query/${query}/${queryString}`,
             dataType: 'JSON',
             success: (data) => {
                 if (typeof callback === 'function') {
