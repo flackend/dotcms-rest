@@ -156,7 +156,7 @@ class DotcmsRest {
         let queryString = '';
         availableOptions.forEach((option) => {
             if (options[option]) {
-                queryString += `${option}/${options[option]}`;
+                queryString += `${option}/${options[option]}/`;
             }
         });
         jQuery.ajax({

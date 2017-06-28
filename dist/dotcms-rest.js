@@ -189,7 +189,7 @@ var DotcmsRest = (function () {
                 var queryString = "";
                 availableOptions.forEach(function (option) {
                     if (options[option]) {
-                        queryString += "" + option + "/" + options[option];
+                        queryString += "" + option + "/" + options[option] + "/";
                     }
                 });
                 jQuery.ajax({
