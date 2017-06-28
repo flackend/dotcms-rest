@@ -127,6 +127,50 @@ class DotcmsRest {
     }
 
     /**
+     * Queries for contentlets.
+     *
+     * This function could likely be made a lot easier to work with by replacing
+     * the query param with structure and data params. Though you'd need a list
+     * of the global params that wouldn't need to be prefixed with the structure
+     * name (e.g. deleted, working, languageId). You would be required to pass
+     * in a structure name that would be used to prefix (e.g. "+Blog.title:How
+     * to *"). Consideration should be made in regards to the "/stInode/xxxx"
+     * which assumably lets you query reults that were published to a specific
+     * structure version (would be valuable if you want to only fetch updated
+     * contentlets). I'm not sure how you would make handle dates. Maybe have
+     * another function, `queryWithDate` or something, that take two additional
+     * params.
+     * @param  string   query    A lucene query string
+     * @param  object   options  A map of options. Available keys are orderBy,
+     * limit, offset, and render.
+     * @param  function callback The function that will be called when the
+     * transaction has completed and will receive the query results.
+     */
+    query(query, options, callback) {
+        let availableOptions = [
+            'limit',
+            'offset',
+            'orderBy',
+            'render'
+        ];
+        let queryString = '';
+        availableOptions.each((option) => {
+            if (options[option]) {
+                optionsString += `${option}/${options[option]}`;
+            }
+        });
+        jQuery.ajax({
+            url: `/api/content/query/${query}/${optionsString}`,
+            dataType: 'JSON',
+            success: (data) => {
+                if (typeof callback === 'function') {
+                    callback(data.contentlets || false);
+                }
+            }
+        });
+    }
+
+    /**
      * Removes the lock on an identifier.
      * @param  string identifier The Contentlet identifier to remove.
      * @return boolean
